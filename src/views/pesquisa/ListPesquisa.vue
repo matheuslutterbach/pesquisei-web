@@ -2,7 +2,9 @@
   <div class="card" style="border-radius: 15px;">
     <div class="card-content">
       <div class="titulo">
-        <p class="title">Pesquisas</p>
+        <p class="title">
+          <b-icon class="mr-4" pack="fas" icon="clipboard-check" size="is-small" />Pesquisas
+        </p>
 
         <div>
           <button
@@ -30,7 +32,7 @@
 
       <div v-if="!loading">
         <div v-for="pesquisa in pesquisas" :key="pesquisa.id" class="box">
-          <article class="media">
+          <article class="media pointer" @click="carregarPesquisa(pesquisa)">
             <div class="media-left">
               <figure class="image is-64x64">
                 <img
@@ -42,8 +44,8 @@
             <div class="media-content">
               <div class="content">
                 <p>
-                  <strong style="font-size: 17px" class="mr-3">{{pesquisa.nome}}</strong>
-                  <small>Criada em: {{pesquisa.dataCricao}}</small>
+                  <strong style="font-size: 17px" class="mr-2">{{pesquisa.nome}}</strong>
+                  <small>Criação: {{moment(pesquisa.dataCricao).format('DD-MM-YYYY')}}</small>
                   <br />
                   {{pesquisa.descricao}}
                 </p>
@@ -53,7 +55,7 @@
                     v-for="bairroPesquisas in pesquisa.bairroPesquisas"
                     :key="bairroPesquisas.id"
                   >
-                    <b-tag class="mr-2" type="is-info">{{bairroPesquisas.bairro.nome}}</b-tag>
+                    <b-tag class="mr-2" type="is-info is-light">{{bairroPesquisas.bairro.nome}}</b-tag>
                   </div>
                 </div>
               </div>
@@ -100,6 +102,11 @@ export default {
         }
       );
     },
+    carregarPesquisa(pesquisa) {
+      console.log("clicou na pesquisa");
+      console.log(pesquisa);
+      this.$router.push("/pesquisa/" + pesquisa.id);
+    },
   },
 };
 </script>
@@ -114,5 +121,9 @@ export default {
 .section-bairros {
   display: flex;
   flex-direction: row;
+}
+
+.pointer {
+  cursor: pointer;
 }
 </style>

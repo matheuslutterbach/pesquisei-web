@@ -9,6 +9,7 @@ import * as VeeValidate from "vee-validate";
 import { ValidationObserver } from "vee-validate";
 import { extend } from "vee-validate";
 import { required, numeric } from "vee-validate/dist/rules";
+import moment from 'moment'
 extend('numeric', {
   ...numeric,
   message: "Campo {_field_} deve ser númerico"
@@ -19,6 +20,8 @@ extend("required", {
 });
 
 
+
+Vue.prototype.moment = moment
 Vue.use(VeeValidate, { inject: false });
 Vue.component('ValidationProvider', ValidationProvider);
 Vue.component("ValidationObserver", ValidationObserver);

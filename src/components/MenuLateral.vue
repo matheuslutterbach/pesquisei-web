@@ -4,13 +4,19 @@
       <p class="menu-label">Menu</p>
       <ul class="menu-list">
         <li>
-          <a href="/cidade">Cidades</a>
+          <a href="/cidade">
+            <b-icon class="mr-1" pack="fas" icon="building" size="is-small" />Cidades
+          </a>
         </li>
         <li>
-          <a href="/bairro">Bairros</a>
+          <a href="/bairro">
+            <b-icon class="mr-1" pack="fas" icon="map-marker-alt" size="is-small" />Bairros
+          </a>
         </li>
         <li>
-          <a href="/pesquisa">Pesquisa</a>
+          <a href="/pesquisa">
+            <b-icon class="mr-1" pack="fas" icon="clipboard-check" size="is-small" />Pesquisa
+          </a>
         </li>
       </ul>
     </aside>
@@ -23,6 +29,6 @@ export default {};
 
 <style scoped>
 .menu-backgroud {
-   padding: 15px 20px;
+  padding: 15px 20px;
 }
 </style>

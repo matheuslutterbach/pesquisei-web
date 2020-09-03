@@ -1,9 +1,13 @@
 <template>
-  <section class="hero is-primary ">
-    <div class="hero-body">
-      <div class="container">
-        <h1 class="title">Pesquisei</h1>
-        <h2 class="subtitle">Pesquisas</h2>
+  <section class="hero is-primary">
+    <div class="titulo">
+      <div class="logo-titulo">
+        <b-icon pack="fas" icon="search" size="is-medium" />
+        <h1 class="title ml-3">Pesquisei</h1>
+      </div>
+
+      <div>
+        <b-button type="is-primary" inverted outlined>Sair</b-button>
       </div>
     </div>
   </section>
@@ -16,5 +20,17 @@ export default {};
 <style>
 .nav-color {
   background-color: aliceblue;
+}
+
+.titulo {
+  padding: 0.9rem 1.2rem;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+}
+
+.logo-titulo {
+  display: flex;
+  flex-flow: row nowrap;
 }
 </style>

@@ -2,7 +2,9 @@
   <div class="card" style="border-radius: 15px;">
     <div class="card-content">
       <div class="titulo">
-        <p class="title">Bairros</p>
+        <p class="title">
+          <b-icon class="mr-4" pack="fas" icon="map-marker-alt" size="is-small" />Bairros
+        </p>
 
         <div>
           <button
