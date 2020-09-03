@@ -1,14 +1,31 @@
 <template>
-  <div class="card">
+  <div class="card" style="border-radius: 15px;">
     <div class="card-content">
       <div class="titulo">
         <p class="title">Cidades</p>
-        <button class="button is-link mr-2" @click="cardModal" :class="{'is-loading' : loading }">
-          <span>Adicionar</span>
-          <span class="icon is-small">
-            <i class="fas fa-plus"></i>
-          </span>
-        </button>
+
+        <div>
+          <button
+            class="button is-link mr-2"
+            @click="cardModal(null)"
+            :class="{'is-loading' : loading }"
+          >
+            <span>Adicionar</span>
+            <span class="icon is-small">
+              <i class="fas fa-plus"></i>
+            </span>
+          </button>
+
+          <button
+            class="button is-link is-light mr-2"
+            @click="buscarCidades()"
+            :class="{'is-loading' : loading }"
+          >
+            <span class="icon is-small">
+              <i class="fas fa-sync"></i>
+            </span>
+          </button>
+        </div>
       </div>
 
       <b-table :data="cidades" :loading="loading">
@@ -25,8 +42,7 @@
         >{{ props.row.estadoSigla }}</b-table-column>
 
         <b-table-column v-slot="props" width="50" field="editar" custom-key="actions">
-          <b-button class="button is-info is-light is-small" @click="cardModal(props.row)">
-            <span>Editar</span>
+          <b-button class="button is-info is-light is-small" @click.native="cardModal(props.row)">
             <span class="icon is-small">
               <i class="fas fa-pen"></i>
             </span>
@@ -41,7 +57,7 @@
 import FormCidade from "./FormCidade";
 
 export default {
-  created: function () {
+  created() {
     this.buscarCidades();
   },
   data() {
@@ -51,30 +67,32 @@ export default {
     };
   },
   methods: {
-    cardModal(obj) {
-      console.log(obj);
+    cardModal(parametro) {
       this.$buefy.modal
         .open({
           parent: this,
           component: FormCidade,
           trapFocus: true,
           hasModalCard: true,
-          props: { obj: obj },
+          props: { parametro },
           customClass: "custom-class custom-class-2",
           width: 400,
         })
         .$on("close", () => this.buscarCidades());
     },
     buscarCidades() {
+      this.loading = true;
       this.$http.get("http://localhost:8060/cidade").then(
         (response) => {
           this.cidades = response.body;
+          this.loading = false;
         },
         () => {
           this.$buefy.toast.open({
             message: "Ops..Algo deu errado!",
             type: "is-danger",
           });
+          this.loading = false;
         }
       );
     },

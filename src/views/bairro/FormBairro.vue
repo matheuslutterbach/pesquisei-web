@@ -4,25 +4,27 @@
       <ValidationObserver v-slot="{ handleSubmit }">
         <form @submit.prevent="handleSubmit(salvar)">
           <header class="modal-card-head">
-            <p class="modal-card-title">Cidade</p>
+            <p class="modal-card-title">Bairro</p>
 
             <button type="button" class="delete" @click="$emit('close')" />
           </header>
           <section class="modal-card-body">
             <ValidationProvider v-slot="{ errors }" name="'Nome'" rules="required">
               <b-field :type="{'is-danger' : errors.length}" label="Nome">
-                <b-input v-model="cidade.nome"></b-input>
+                <b-input v-model="bairro.nome"></b-input>
               </b-field>
               <small class="has-text-danger">{{ errors[0] }}</small>
             </ValidationProvider>
 
-            <ValidationProvider v-slot="{ errors }" name="'Estado'" rules="required">
-              <b-field label="Estado" :type="{'is-danger' : errors.length}">
-                <b-select placeholder="Selecione" v-model="cidade.estadoSigla" expanded>
-                  <option value="RJ">RJ</option>
-                  <option value="MG">MG</option>
-                  <option value="ES">ES</option>
-                  <option value="SP">SP</option>
+            <ValidationProvider v-slot="{ errors }" name="'Cidade'" rules="required">
+              <b-field :type="{'is-danger' : errors.length}" label="Cidade">
+                <b-select
+                  placeholder="Select a cidade"
+                  :loading="loadingCidades"
+                  expanded
+                  v-model="bairro.cidade"
+                >
+                  <option v-for="c in cidades" :value="c" :key="c.id">{{ c.nome }}</option>
                 </b-select>
               </b-field>
               <small class="has-text-danger">{{ errors[0] }}</small>
@@ -56,20 +58,25 @@ export default {
   props: ["parametro"],
   created() {
     if (this.parametro) {
-      this.cidade = { ...this.parametro };
+      this.bairro = { ...this.parametro };
     }
+    this.buscarCidades();
   },
   data() {
     return {
+      loadingCidades: false,
       loading: false,
-      cidade: {},
+      bairro: {},
+      cidades: [],
     };
   },
   methods: {
     salvar() {
-      if (!this.cidade.id) {
+      this.bairro.idCidade = this.bairro.cidade.id;
+      console.log(this.bairro);
+      if (!this.bairro.id) {
         this.loading = true;
-        this.$http.post("http://localhost:8060/cidade", this.cidade).then(
+        this.$http.post("http://localhost:8060/bairro", this.bairro).then(
           () => {
             this.loading = false;
             this.$buefy.toast.open({
@@ -90,7 +97,7 @@ export default {
       } else {
         this.loading = true;
         this.$http
-          .put("http://localhost:8060/cidade/" + this.cidade.id, this.cidade)
+          .put("http://localhost:8060/bairro/" + this.bairro.id, this.bairro)
           .then(
             () => {
               this.loading = false;
@@ -110,6 +117,22 @@ export default {
             }
           );
       }
+    },
+    buscarCidades() {
+      this.loadingCidades = true;
+      this.$http.get("http://localhost:8060/cidade").then(
+        (response) => {
+          this.cidades = response.body;
+          this.loadingCidades = false;
+        },
+        () => {
+          this.$buefy.toast.open({
+            message: "Ops..Algo deu errado!",
+            type: "is-danger",
+          });
+          this.loadingCidades = false;
+        }
+      );
     },
   },
 };

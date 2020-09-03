@@ -3,6 +3,7 @@ import VueRouter from "vue-router";
 import Home from '../views/Home.vue';
 import ListCidade from '../views/cidade/ListCidade.vue';
 import ListBairro from '../views/bairro/ListBairro.vue';
+import ListPesquisa from '../views/pesquisa/ListPesquisa.vue';
 
 Vue.use(VueRouter);
 
@@ -10,6 +11,7 @@ const routes = [
     { path: "/", name: "home", component: Home },
     { path: "/cidade", name: "cidade", component: ListCidade },
     { path: "/bairro", name: "bairro", component: ListBairro },
+    { path: "/pesquisa", name: "pesquisa", component: ListPesquisa },
 ];
 
 
