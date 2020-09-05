@@ -1,5 +1,5 @@
 <template>
-  <div class="card ml-3" style="border-radius: 15px;">
+  <div class="card ml-3 altura-menu" style="border-radius: 15px;">
     <aside class="menu menu-backgroud">
       <p class="menu-label">Menu</p>
       <ul class="menu-list">
@@ -30,5 +30,8 @@ export default {};
 <style scoped>
 .menu-backgroud {
   padding: 15px 20px;
+}
+.altura-menu {
+  height: calc(100vh - 100px);
 }
 </style>

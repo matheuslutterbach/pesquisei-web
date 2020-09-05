@@ -27,7 +27,6 @@ export default {
   components: {
     Cabecalho,
     MenuLateral,
-    // Rodape,
   },
 };
 </script>

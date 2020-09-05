@@ -9,10 +9,10 @@
         <div>
           <button
             class="button is-link mr-2"
-            @click="cardModal(null)"
+            @click="adicionarRouter()"
             :class="{'is-loading' : loading }"
           >
-            <span>Adicionar</span>
+            <span>Criar Pesquisa</span>
             <span class="icon is-small">
               <i class="fas fa-plus"></i>
             </span>
@@ -44,7 +44,7 @@
             <div class="media-content">
               <div class="content">
                 <p>
-                  <strong style="font-size: 17px" class="mr-2">{{pesquisa.nome}}</strong>
+                  <strong style="font-size: 17px" class="mr-2">{{pesquisa.id}} - {{pesquisa.nome}}</strong>
                   <small>Criação: {{moment(pesquisa.dataCricao).format('DD-MM-YYYY')}}</small>
                   <br />
                   {{pesquisa.descricao}}
@@ -73,7 +73,6 @@
 
 <script>
 import Loading from "../../components/Loading";
-
 export default {
   components: { Loading },
   created() {
@@ -103,9 +102,10 @@ export default {
       );
     },
     carregarPesquisa(pesquisa) {
-      console.log("clicou na pesquisa");
-      console.log(pesquisa);
       this.$router.push("/pesquisa/" + pesquisa.id);
+    },
+    adicionarRouter() {
+      this.$router.push("/pesquisa-formulario/");
     },
   },
 };

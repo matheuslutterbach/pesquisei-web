@@ -13,9 +13,8 @@
             @click="cardModal(null)"
             :class="{'is-loading' : loading }"
           >
-            <span>Adicionar</span>
             <span class="icon is-small">
-              <i class="fas fa-plus"></i>
+              <i class="fas fa-pen"></i>
             </span>
           </button>
         </div>
@@ -26,15 +25,20 @@
           <div class="column is-4">
             <dadosPesquisa :pesquisa="pesquisa"></dadosPesquisa>
           </div>
-          <div class="column"></div>
+          <div class="is-divider-vertical" />
+          <div class="column is-3">
+            <perguntasPesquisa :pesquisa="pesquisa"></perguntasPesquisa>
+          </div>
+          <div class="is-divider-vertical" />
+          <div class="column">
+            <div class="title is-4">Status</div>
+          </div>
         </div>
       </div>
 
       <div v-else>
         <Loading />
       </div>
-
-      <!-- <pre> {{pesquisa}} </pre> -->
     </div>
   </div>
 </template>
@@ -42,9 +46,10 @@
 <script>
 import Loading from "../../components/Loading";
 import DadosPesquisa from "./DadosPesquisa";
+import PerguntasPesquisa from "./PerguntasPesquisa";
 
 export default {
-  components: { Loading, DadosPesquisa },
+  components: { Loading, DadosPesquisa, PerguntasPesquisa },
   created() {
     this.buscarPesquisa(this.$route.params.id);
   },

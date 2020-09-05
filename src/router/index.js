@@ -5,6 +5,7 @@ import ListCidade from '../views/cidade/ListCidade.vue';
 import ListBairro from '../views/bairro/ListBairro.vue';
 import ListPesquisa from '../views/pesquisa/ListPesquisa.vue';
 import DetalhePesquisa from '../views/pesquisa/DetalhePesquisa.vue';
+import FormPesquisa from '../views/pesquisa/FormPesquisa.vue';
 
 Vue.use(VueRouter);
 
@@ -14,6 +15,8 @@ const routes = [
     { path: "/bairro", name: "bairro", component: ListBairro },
     { path: "/pesquisa", name: "pesquisa", component: ListPesquisa },
     { path: "/pesquisa/:id", name: "pesquisa-detalhe", component: DetalhePesquisa },
+    { path: "/pesquisa-formulario/", name: "pesquisa-formulario", component: FormPesquisa },
+    { path: "/pesquisa-formulario/:id", name: "pesquisa-formulario", component: FormPesquisa },
 ];
 
 
