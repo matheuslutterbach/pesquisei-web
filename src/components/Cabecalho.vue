@@ -3,7 +3,9 @@
     <div class="titulo">
       <div class="logo-titulo">
         <b-icon pack="fas" icon="search" size="is-medium" />
-        <h1 class="title ml-3">Pesquisei</h1>
+        <a href="/">
+          <h1 class="title ml-3">Pesquisei</h1>
+        </a>
       </div>
 
       <div>

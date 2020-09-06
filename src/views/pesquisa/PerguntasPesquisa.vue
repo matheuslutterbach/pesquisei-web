@@ -1,6 +1,8 @@
 <template>
   <div>
-    <div class="title is-4">Perguntas</div>
+    <div class="title is-4">
+      <b-icon class="mr-3" pack="fas" icon="clipboard-list" size="is-small" />Perguntas
+    </div>
     <div v-for="pergunta in pesquisa.perguntas" :key="pergunta.id">
       <p>{{pergunta.ordem}} - {{pergunta.descricao}}</p>
 

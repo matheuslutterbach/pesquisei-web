@@ -10,11 +10,11 @@
         <div>
           <button
             class="button is-link mr-2"
-            @click="cardModal(null)"
+            @click="buscarPesquisa(pesquisa.id)"
             :class="{'is-loading' : loading }"
           >
             <span class="icon is-small">
-              <i class="fas fa-pen"></i>
+              <i class="fas fa-sync"></i>
             </span>
           </button>
         </div>
@@ -24,6 +24,17 @@
         <div class="columns">
           <div class="column is-4">
             <dadosPesquisa :pesquisa="pesquisa"></dadosPesquisa>
+            <b-button
+              class="button mt-6"
+              type="is-light"
+              :loading="loading"
+              @click="$router.push('/pesquisa')"
+            >
+              <span class="icon is-small">
+                <i class="fas fa-arrow-left"></i>
+              </span>
+              <span>Voltar</span>
+            </b-button>
           </div>
           <div class="is-divider-vertical" />
           <div class="column is-3">
@@ -31,7 +42,9 @@
           </div>
           <div class="is-divider-vertical" />
           <div class="column">
-            <div class="title is-4">Status</div>
+            <div class="title is-4">
+              <b-icon class="mr-3" pack="fas" icon="poll" size="is-small" />Status
+            </div>
           </div>
         </div>
       </div>

@@ -116,7 +116,6 @@ export default {
       );
     },
     buscarBairros() {
-      this.bairrosSelecionados = [];
       if (this.cidade.id) {
         this.loadingBairros = true;
         this.$http

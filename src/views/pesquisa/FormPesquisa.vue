@@ -7,10 +7,12 @@
         </p>
       </div>
 
+      <!-- <pre> {{pesquisa}} </pre>
+      <pre>{{ $store.getters.bairrosSelecionados }} </pre>
+      <pre>{{$store.getters.perguntasCadastradas}} </pre>-->
+
       <ValidationObserver v-slot="{ handleSubmit }">
         <form @submit.prevent="handleSubmit(salvar)">
-          <pre>{{pesquisa}}</pre>
-
           <section class="modal-card-body">
             <div class="columns">
               <div class="column">
@@ -28,7 +30,7 @@
                   <small class="has-text-danger">{{ errors[0] }}</small>
                 </ValidationProvider>
 
-                <ValidationProvider v-slot="{ errors }" name="'Nº entrevistados'" rules="alpha">
+                <ValidationProvider v-slot="{ errors }" name="'Nº entrevistados'" rules="numeric">
                   <b-field :type="{'is-danger' : errors.length}" label="Nº entrevistados">
                     <b-input v-model="pesquisa.numeroEntrevistados"></b-input>
                   </b-field>
@@ -37,7 +39,9 @@
               </div>
               <div class="column">
                 <div class="subtitulo-form">
-                  <div class="subtitle">Bairros</div>
+                  <div class="subtitle">
+                    <b-icon class="mr-2" pack="fas" icon="map-marker-alt" size="is-small" />Bairros
+                  </div>
                   <div>
                     <button
                       class="button is-link mr-4"
@@ -71,22 +75,71 @@
                   <b-table-column field="percentual" label="Percentual" v-slot="props">
                     <p v-if="props.row.percentual">{{ props.row.percentual}} %</p>
                   </b-table-column>
+                  <b-table-column v-slot="props" width="50" field="editar" custom-key="actions">
+                    <b-button
+                      class="button is-info is-light is-small"
+                      @click.native="removerBairro(props.row)"
+                    >
+                      <span class="icon is-small">
+                        <i class="fas fa-trash"></i>
+                      </span>
+                    </b-button>
+                  </b-table-column>
                 </b-table>
               </div>
               <div class="column">
                 <div class="subtitulo-form">
-                  <div class="subtitle">Perguntas</div>
+                  <div class="subtitle">
+                    <b-icon class="mr-2" pack="fas" icon="clipboard-list" size="is-small" />Perguntas
+                  </div>
                   <div>
                     <button
                       size="is-small"
                       class="button is-link mr-4"
-                      @click="adicionarRouter()"
+                      @click="adicionarPerguntaModal()"
                       :class="{'is-loading' : loading }"
+                      type="button"
                     >
                       <span class="icon is-small">
                         <i class="fas fa-plus"></i>
                       </span>
                     </button>
+                  </div>
+                </div>
+
+                <div>
+                  <div
+                    v-for="(pergunta, index) in $store.getters.perguntasCadastradas"
+                    :key="pergunta.id"
+                  >
+                    <p>
+                      <strong>{{index +1}} -</strong>
+                      {{pergunta.descricao}}
+                    </p>
+
+                    <div class="columns">
+                      <div class="column is-10">
+                        <ol class="ml-5 mt-2" type="A">
+                          <li
+                            class="mt-2"
+                            v-for="resposta in pergunta.respostas"
+                            :key="resposta.id"
+                          >{{resposta.descricao}}</li>
+                        </ol>
+                      </div>
+                      <div class="column">
+                        <b-button
+                          class="mt-5 button is-info is-light is-small"
+                          @click.native="removerPergunta(pergunta)"
+                        >
+                          <span class="icon is-small">
+                            <i class="fas fa-trash"></i>
+                          </span>
+                        </b-button>
+                      </div>
+                    </div>
+
+                    <div v-if="$store.getters.perguntasCadastradas.length > 0" class="is-divider"></div>
                   </div>
                 </div>
               </div>
@@ -122,12 +175,15 @@
 
 <script>
 import AdicionarBairro from "./forms/AdicionarBairro";
+import AdicionarPergunta from "./forms/AdicionarPergunta";
+
 export default {
   created() {
     if (this.$router.id) {
       this.buscarPesquisa(this.$route.params.id);
     }
     this.$store.commit("limparBairros");
+    this.$store.commit("limparPerguntas");
   },
   data() {
     return {
@@ -137,52 +193,43 @@ export default {
   },
   methods: {
     salvar() {
-      if (!this.pesquisa.id) {
-        this.loading = true;
-        this.$http.post("http://localhost:8060/pesquisa", this.pesquisa).then(
-          () => {
-            this.loading = false;
-            this.$buefy.toast.open({
-              message: "Registro Salvo",
-              type: "is-success",
-            });
-            this.$parent.close();
-          },
-          (error) => {
-            this.loading = false;
-            this.$buefy.toast.open({
-              message: error.message,
-              type: "is-danger",
-            });
-            this.$parent.close();
-          }
-        );
-      } else {
-        this.loading = true;
-        this.$http
-          .put(
-            "http://localhost:8060/pesquisa/" + this.pesquisa.id,
-            this.pesquisa
-          )
-          .then(
-            () => {
-              this.loading = false;
-              this.$buefy.toast.open({
-                message: "Registro alterado",
-                type: "is-success",
-              });
-              this.$parent.close();
-            },
-            () => {
-              this.loading = false;
-              this.$buefy.toast.open({
-                message: "Ops..Algo deu errado!",
-                type: "is-danger",
-              });
-              this.$parent.close();
-            }
-          );
-      }
+      this.pesquisa.bairrosPesquisa = this.$store.getters.bairrosSelecionados.map(
+        (bairroSelecionado) => {
+          return {
+            bairroId: bairroSelecionado.id,
+            percentual: bairroSelecionado.percentual,
+          };
+        }
+      );
+
+      this.pesquisa.perguntas = this.$store.getters.perguntasCadastradas.map(
+        (pergunta, index) => {
+          return {
+            descricao: pergunta.descricao,
+            ordem: index,
+            respostas: pergunta.respostas,
+          };
+        }
+      );
+
+      this.loading = true;
+      this.$http.post("http://localhost:8060/pesquisa", this.pesquisa).then(
+        (response) => {
+          this.loading = false;
+          this.$buefy.toast.open({
+            message: "Registro Salvo",
+            type: "is-success",
+          });
+          this.$router.push("/pesquisa/" + response.body.id);
+        },
+        (error) => {
+          this.loading = false;
+          this.$buefy.toast.open({
+            message: error.message,
+            type: "is-danger",
+          });
+        }
+      );
     },
     buscarPesquisa(idPesquisa) {
       this.loading = true;
@@ -204,6 +251,30 @@ export default {
       this.$buefy.modal.open({
         parent: this,
         component: AdicionarBairro,
+        trapFocus: true,
+        hasModalCard: true,
+        customClass: "custom-class custom-class-2",
+        width: 1200,
+      });
+    },
+    removerBairro(bairro) {
+      this.$store.commit("removerBairro", bairro);
+      this.$buefy.toast.open({
+        message: "Bairro " + bairro.nome + " removido",
+        type: "is-success",
+      });
+    },
+    removerPergunta(pergunta) {
+      this.$store.commit("removerPergunta", pergunta);
+      this.$buefy.toast.open({
+        message: "Pergunta removida",
+        type: "is-success",
+      });
+    },
+    adicionarPerguntaModal() {
+      this.$buefy.modal.open({
+        parent: this,
+        component: AdicionarPergunta,
         trapFocus: true,
         hasModalCard: true,
         customClass: "custom-class custom-class-2",
