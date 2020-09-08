@@ -67,14 +67,19 @@
       <div v-else>
         <Loading />
       </div>
+
+      <div v-if="pesquisas.length === 0">
+        <listaVazia></listaVazia>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
 import Loading from "../../components/Loading";
+import ListaVazia from "../../components/ListaVazia";
 export default {
-  components: { Loading },
+  components: { Loading, ListaVazia },
   created() {
     this.buscarPesquisas();
   },

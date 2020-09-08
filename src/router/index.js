@@ -16,7 +16,6 @@ const routes = [
     { path: "/pesquisa", name: "pesquisa", component: ListPesquisa },
     { path: "/pesquisa/:id", name: "pesquisa-detalhe", component: DetalhePesquisa },
     { path: "/pesquisa-formulario/", name: "pesquisa-formulario", component: FormPesquisa },
-    { path: "/pesquisa-formulario/:id", name: "pesquisa-formulario-editar", component: FormPesquisa },
 ];
 
 

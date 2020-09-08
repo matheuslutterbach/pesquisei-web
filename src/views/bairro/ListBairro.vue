@@ -47,14 +47,20 @@
           </b-button>
         </b-table-column>
       </b-table>
+
+      <div v-if="bairros.length === 0">
+        <listaVazia></listaVazia>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
 import FormBairro from "./FormBairro";
+import ListaVazia from "../../components/ListaVazia";
 
 export default {
+  components: { ListaVazia },
   created() {
     this.buscarBairros();
   },

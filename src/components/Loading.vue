@@ -1,5 +1,7 @@
 <template>
-  <div class="lds-dual-ring"></div>
+  <div class="has-text-centered mb-5 mt-6">
+    <div class="lds-dual-ring"></div>
+  </div>
 </template>
 
 <script>

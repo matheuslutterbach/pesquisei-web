@@ -51,14 +51,20 @@
           </b-button>
         </b-table-column>
       </b-table>
+
+      <div v-if="cidades.length === 0">
+        <listaVazia></listaVazia>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
 import FormCidade from "./FormCidade";
+import ListaVazia from "../../components/ListaVazia";
 
 export default {
+  component: ListaVazia,
   created() {
     this.buscarCidades();
   },
