@@ -54,6 +54,8 @@
 </template>
 
 <script>
+import { authService } from "../../_services/authService";
+
 export default {
   props: ["parametro"],
   created() {
@@ -73,31 +75,40 @@ export default {
   methods: {
     salvar() {
       this.bairro.idCidade = this.bairro.cidade.id;
-      console.log(this.bairro);
       if (!this.bairro.id) {
         this.loading = true;
-        this.$http.post("http://localhost:8060/bairro", this.bairro).then(
-          () => {
-            this.loading = false;
-            this.$buefy.toast.open({
-              message: "Registro Salvo",
-              type: "is-success",
-            });
-            this.$parent.close();
-          },
-          (error) => {
-            this.loading = false;
-            this.$buefy.toast.open({
-              message: error.message,
-              type: "is-danger",
-            });
-            this.$parent.close();
-          }
-        );
+        this.$http
+          .post(
+            `${process.env.VUE_APP_BASE_URL}/bairro`,
+            this.bairro,
+            authService.authHeader()
+          )
+          .then(
+            () => {
+              this.loading = false;
+              this.$buefy.toast.open({
+                message: "Registro Salvo",
+                type: "is-success",
+              });
+              this.$parent.close();
+            },
+            (error) => {
+              this.loading = false;
+              this.$buefy.toast.open({
+                message: error.message,
+                type: "is-danger",
+              });
+              this.$parent.close();
+            }
+          );
       } else {
         this.loading = true;
         this.$http
-          .put("http://localhost:8060/bairro/" + this.bairro.id, this.bairro)
+          .put(
+            `${process.env.VUE_APP_BASE_URL}/bairro/` + this.bairro.id,
+            this.bairro,
+            authService.authHeader()
+          )
           .then(
             () => {
               this.loading = false;
@@ -120,19 +131,21 @@ export default {
     },
     buscarCidades() {
       this.loadingCidades = true;
-      this.$http.get("http://localhost:8060/cidade").then(
-        (response) => {
-          this.cidades = response.body;
-          this.loadingCidades = false;
-        },
-        () => {
-          this.$buefy.toast.open({
-            message: "Ops..Algo deu errado!",
-            type: "is-danger",
-          });
-          this.loadingCidades = false;
-        }
-      );
+      this.$http
+        .get(`${process.env.VUE_APP_BASE_URL}/cidade`, authService.authHeader())
+        .then(
+          (response) => {
+            this.cidades = response.body;
+            this.loadingCidades = false;
+          },
+          () => {
+            this.$buefy.toast.open({
+              message: "Ops..Algo deu errado!",
+              type: "is-danger",
+            });
+            this.loadingCidades = false;
+          }
+        );
     },
   },
 };

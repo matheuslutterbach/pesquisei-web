@@ -7,10 +7,6 @@
         </p>
       </div>
 
-      <!-- <pre> {{pesquisa}} </pre>
-      <pre>{{ $store.getters.bairrosSelecionados }} </pre>
-      <pre>{{$store.getters.perguntasCadastradas}} </pre>-->
-
       <ValidationObserver v-slot="{ handleSubmit }">
         <form @submit.prevent="handleSubmit(salvar)">
           <section class="modal-card-body">
@@ -176,6 +172,7 @@
 <script>
 import AdicionarBairro from "./forms/AdicionarBairro";
 import AdicionarPergunta from "./forms/AdicionarPergunta";
+import { authService } from "../../_services/authService";
 
 export default {
   created() {
@@ -213,39 +210,50 @@ export default {
       );
 
       this.loading = true;
-      this.$http.post("http://localhost:8060/pesquisa", this.pesquisa).then(
-        (response) => {
-          this.loading = false;
-          this.$buefy.toast.open({
-            message: "Registro Salvo",
-            type: "is-success",
-          });
-          this.$router.push("/pesquisa/" + response.body.id);
-        },
-        (error) => {
-          this.loading = false;
-          this.$buefy.toast.open({
-            message: error.message,
-            type: "is-danger",
-          });
-        }
-      );
+      this.$http
+        .post(
+          `${process.env.VUE_APP_BASE_URL}/pesquisa`,
+          this.pesquisa,
+          authService.authHeader()
+        )
+        .then(
+          (response) => {
+            this.loading = false;
+            this.$buefy.toast.open({
+              message: "Registro Salvo",
+              type: "is-success",
+            });
+            this.$router.push("/pesquisa/" + response.body.id);
+          },
+          (error) => {
+            this.loading = false;
+            this.$buefy.toast.open({
+              message: error.message,
+              type: "is-danger",
+            });
+          }
+        );
     },
     buscarPesquisa(idPesquisa) {
       this.loading = true;
-      this.$http.get("http://localhost:8060/pesquisa/" + idPesquisa).then(
-        (response) => {
-          this.pesquisa = response.body;
-          this.loading = false;
-        },
-        () => {
-          this.$buefy.toast.open({
-            message: "Ops..Algo deu errado!",
-            type: "is-danger",
-          });
-          this.loading = false;
-        }
-      );
+      this.$http
+        .get(
+          `${process.env.VUE_APP_BASE_URL}/pesquisa/` + idPesquisa,
+          authService.authHeader()
+        )
+        .then(
+          (response) => {
+            this.pesquisa = response.body;
+            this.loading = false;
+          },
+          () => {
+            this.$buefy.toast.open({
+              message: "Ops..Algo deu errado!",
+              type: "is-danger",
+            });
+            this.loading = false;
+          }
+        );
     },
     adicionarBairroModal() {
       this.$buefy.modal.open({

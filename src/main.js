@@ -11,6 +11,7 @@ import { ValidationObserver } from "vee-validate";
 import { extend } from "vee-validate";
 import { required, numeric, max_value } from "vee-validate/dist/rules";
 import './../node_modules/bulma-extensions/dist/css/bulma-extensions.min.css';
+
 import moment from 'moment'
 extend('numeric', {
   ...numeric,
@@ -25,15 +26,26 @@ extend('max_value', {
   message: 'Campo {_field_} não pode ser superior a 100%'
 });
 
+Vue.config.productionTip = false
 
 
 Vue.prototype.moment = moment
 Vue.use(VeeValidate, { inject: false });
 Vue.component('ValidationProvider', ValidationProvider);
 Vue.component("ValidationObserver", ValidationObserver);
-Vue.config.productionTip = false
 Vue.use(Buefy)
 Vue.use(VueResource)
+
+Vue.use(VueResource)
+
+
+Vue.http.interceptors.push(function (request, next) {
+  next(function (response) {
+    if (response.status == 401) {
+      this.$router.push('/login')
+    }
+  });
+});
 
 new Vue({
   router,

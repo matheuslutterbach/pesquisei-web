@@ -58,6 +58,8 @@
 <script>
 import FormBairro from "./FormBairro";
 import ListaVazia from "../../components/ListaVazia";
+import { authService } from "../../_services/authService";
+
 
 export default {
   components: { ListaVazia },
@@ -86,7 +88,7 @@ export default {
     },
     buscarBairros() {
       this.loading = true;
-      this.$http.get("http://localhost:8060/bairro").then(
+      this.$http.get(`${process.env.VUE_APP_BASE_URL}/bairro`, authService.authHeader()).then(
         (response) => {
           this.bairros = response.body;
           this.loading = false;

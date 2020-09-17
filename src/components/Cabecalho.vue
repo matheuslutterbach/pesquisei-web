@@ -9,14 +9,27 @@
       </div>
 
       <div>
-        <b-button type="is-primary" inverted outlined>Sair</b-button>
+        <b-button
+          @click="logout"
+          v-if="$route.path !== '/login'"
+          type="is-primary"
+          inverted
+          outlined
+        >Sair</b-button>
       </div>
     </div>
   </section>
 </template>
 
 <script>
-export default {};
+export default {
+  methods: {
+    logout() {
+      localStorage.removeItem("user");
+      this.$router.push("/login");
+    },
+  },
+};
 </script>
 
 <style>

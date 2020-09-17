@@ -78,6 +78,8 @@
 <script>
 import Loading from "../../components/Loading";
 import ListaVazia from "../../components/ListaVazia";
+import { authService } from "../../_services/authService";
+
 export default {
   components: { Loading, ListaVazia },
   created() {
@@ -92,19 +94,21 @@ export default {
   methods: {
     buscarPesquisas() {
       this.loading = true;
-      this.$http.get("http://localhost:8060/pesquisa").then(
-        (response) => {
-          this.pesquisas = response.body;
-          this.loading = false;
-        },
-        () => {
-          this.$buefy.toast.open({
-            message: "Ops..Algo deu errado!",
-            type: "is-danger",
-          });
-          this.loading = false;
-        }
-      );
+      this.$http
+        .get(`${process.env.VUE_APP_BASE_URL}/pesquisa`, authService.authHeader())
+        .then(
+          (response) => {
+            this.pesquisas = response.body;
+            this.loading = false;
+          },
+          () => {
+            this.$buefy.toast.open({
+              message: "Ops..Algo deu errado!",
+              type: "is-danger",
+            });
+            this.loading = false;
+          }
+        );
     },
     carregarPesquisa(pesquisa) {
       this.$router.push("/pesquisa/" + pesquisa.id);

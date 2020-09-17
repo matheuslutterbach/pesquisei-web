@@ -62,9 +62,10 @@
 <script>
 import FormCidade from "./FormCidade";
 import ListaVazia from "../../components/ListaVazia";
+import { authService } from "../../_services/authService";
 
 export default {
-  component: ListaVazia,
+  components: { ListaVazia },
   created() {
     this.buscarCidades();
   },
@@ -90,19 +91,21 @@ export default {
     },
     buscarCidades() {
       this.loading = true;
-      this.$http.get("http://localhost:8060/cidade").then(
-        (response) => {
-          this.cidades = response.body;
-          this.loading = false;
-        },
-        () => {
-          this.$buefy.toast.open({
-            message: "Ops..Algo deu errado!",
-            type: "is-danger",
-          });
-          this.loading = false;
-        }
-      );
+      this.$http
+        .get(`${process.env.VUE_APP_BASE_URL}/cidade`, authService.authHeader())
+        .then(
+          (response) => {
+            this.cidades = response.body;
+            this.loading = false;
+          },
+          () => {
+            this.$buefy.toast.open({
+              message: "Ops..Algo deu errado!",
+              type: "is-danger",
+            });
+            this.loading = false;
+          }
+        );
     },
   },
 };

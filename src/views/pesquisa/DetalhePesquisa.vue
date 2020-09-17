@@ -60,6 +60,7 @@
 import Loading from "../../components/Loading";
 import DadosPesquisa from "./DadosPesquisa";
 import PerguntasPesquisa from "./PerguntasPesquisa";
+import { authService } from "../../_services/authService";
 
 export default {
   components: { Loading, DadosPesquisa, PerguntasPesquisa },
@@ -75,19 +76,21 @@ export default {
   methods: {
     buscarPesquisa(idPesquisa) {
       this.loading = true;
-      this.$http.get("http://localhost:8060/pesquisa/" + idPesquisa).then(
-        (response) => {
-          this.pesquisa = response.body;
-          this.loading = false;
-        },
-        () => {
-          this.$buefy.toast.open({
-            message: "Ops..Algo deu errado!",
-            type: "is-danger",
-          });
-          this.loading = false;
-        }
-      );
+      this.$http
+        .get(`${process.env.VUE_APP_BASE_URL}/pesquisa/` + idPesquisa, authService.authHeader())
+        .then(
+          (response) => {
+            this.pesquisa = response.body;
+            this.loading = false;
+          },
+          () => {
+            this.$buefy.toast.open({
+              message: "Ops..Algo deu errado!",
+              type: "is-danger",
+            });
+            this.loading = false;
+          }
+        );
     },
   },
 };

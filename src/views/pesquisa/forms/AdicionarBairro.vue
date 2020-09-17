@@ -80,6 +80,8 @@
 </template>
 
 <script>
+import { authService } from "../../../_services/authService";
+
 export default {
   created() {
     this.buscarCidades();
@@ -101,25 +103,30 @@ export default {
     },
     buscarCidades() {
       this.loadingCidades = true;
-      this.$http.get("http://localhost:8060/cidade").then(
-        (response) => {
-          this.cidades = response.body;
-          this.loadingCidades = false;
-        },
-        () => {
-          this.$buefy.toast.open({
-            message: "Ops..Algo deu errado!",
-            type: "is-danger",
-          });
-          this.loadingCidades = false;
-        }
-      );
+      this.$http
+        .get(`${process.env.VUE_APP_BASE_URL}/cidade`, authService.authHeader())
+        .then(
+          (response) => {
+            this.cidades = response.body;
+            this.loadingCidades = false;
+          },
+          () => {
+            this.$buefy.toast.open({
+              message: "Ops..Algo deu errado!",
+              type: "is-danger",
+            });
+            this.loadingCidades = false;
+          }
+        );
     },
     buscarBairros() {
       if (this.cidade.id) {
         this.loadingBairros = true;
         this.$http
-          .get("http://localhost:8060/bairro/cidade/" + this.cidade.id)
+          .get(
+            `${process.env.VUE_APP_BASE_URL}/bairro/cidade/` + this.cidade.id,
+            authService.authHeader()
+          )
           .then(
             (response) => {
               this.bairros = response.body;
