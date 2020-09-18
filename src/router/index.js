@@ -11,6 +11,7 @@ import Login from '../views/login/Login.vue';
 Vue.use(VueRouter);
 
 const routes = [
+    { path: "", name: "login", component: Login },
     { path: "/home", name: "home", component: Home },
     { path: "/cidade", name: "cidade", component: ListCidade },
     { path: "/bairro", name: "bairro", component: ListBairro },
@@ -29,7 +30,7 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
     //   redirect to login page if not logged in and trying to access a restricted page
-    const publicPages = ['/login', '/'];
+    const publicPages = ['/login'];
     const authRequired = !publicPages.includes(to.path);
     const loggedIn = localStorage.getItem('user');
 
