@@ -5,7 +5,7 @@
     </div>
     <div class="main">
       <div class="columns">
-        <div class="column is-2" v-if="this.$route.path !== '/login'">
+        <div class="column is-2" v-if="this.$route.path !== '/' && this.$route.path !== '/login'">
           <menuLateral />
         </div>
         <div class="column">

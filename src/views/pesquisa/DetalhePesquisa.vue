@@ -17,12 +17,19 @@
               <i class="fas fa-sync"></i>
             </span>
           </button>
+          <button
+            class="button is-link mr-2"
+            @click="resultadosRouter()"
+            :class="{'is-loading' : loading }"
+          >
+            <b-icon class="mr-1" pack="fas" icon="chart-pie" size="is-small" />Resultados
+          </button>
         </div>
       </div>
 
       <div v-if="pesquisa.id">
         <div class="columns">
-          <div class="column is-4">
+          <div class="column is-5">
             <dadosPesquisa :pesquisa="pesquisa"></dadosPesquisa>
             <b-button
               class="button mt-6"
@@ -37,14 +44,8 @@
             </b-button>
           </div>
           <div class="is-divider-vertical" />
-          <div class="column is-3">
+          <div class="column is-5">
             <perguntasPesquisa :pesquisa="pesquisa"></perguntasPesquisa>
-          </div>
-          <div class="is-divider-vertical" />
-          <div class="column">
-            <div class="title is-4">
-              <b-icon class="mr-3" pack="fas" icon="poll" size="is-small" />Status
-            </div>
           </div>
         </div>
       </div>
@@ -77,7 +78,10 @@ export default {
     buscarPesquisa(idPesquisa) {
       this.loading = true;
       this.$http
-        .get(`${process.env.VUE_APP_BASE_URL}/pesquisa/` + idPesquisa, authService.authHeader())
+        .get(
+          `${process.env.VUE_APP_BASE_URL}/pesquisa/` + idPesquisa,
+          authService.authHeader()
+        )
         .then(
           (response) => {
             this.pesquisa = response.body;
@@ -91,6 +95,9 @@ export default {
             this.loading = false;
           }
         );
+    },
+    resultadosRouter() {
+      this.$router.push("/pesquisa-resultado/" + this.$route.params.id);
     },
   },
 };
