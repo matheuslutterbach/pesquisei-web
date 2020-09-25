@@ -6,7 +6,8 @@ import ListBairro from '../views/bairro/ListBairro.vue';
 import ListPesquisa from '../views/pesquisa/ListPesquisa.vue';
 import DetalhePesquisa from '../views/pesquisa/DetalhePesquisa.vue';
 import FormPesquisa from '../views/pesquisa/FormPesquisa.vue';
-import Resultado from '../views/resultado/Resultado.vue';
+import ResultadoGeral from '../views/resultado/ResultadoGeral.vue';
+import ResultadoBairro from '../views/resultado/ResultadoBairro.vue';
 import Login from '../views/login/Login.vue';
 
 Vue.use(VueRouter);
@@ -20,7 +21,8 @@ const routes = [
     { path: "/pesquisa", name: "pesquisa", component: ListPesquisa },
     { path: "/pesquisa/:id", name: "pesquisa-detalhe", component: DetalhePesquisa },
     { path: "/pesquisa-formulario/", name: "pesquisa-formulario", component: FormPesquisa },
-    { path: "/pesquisa-resultado/:id", name: "pesquisa-resultado", component: Resultado },
+    { path: "/pesquisa-resultado-geral/:id", name: "pesquisa-resultado-geral", component: ResultadoGeral },
+    { path: "/pesquisa-resultado-bairro/:id", name: "pesquisa-resultado-bairro", component: ResultadoBairro },
 ];
 
 

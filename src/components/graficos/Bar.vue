@@ -11,7 +11,7 @@ export default {
         labels: this.label,
         datasets: [
           {
-            label: "Gráfico",
+            label: "Total",
             borderWidth: 4,
             backgroundColor: [
               "rgba(255, 99, 132, 0.2)",
@@ -76,6 +76,21 @@ export default {
   },
   mounted() {
     this.renderChart(this.chartData, this.options);
+  },
+  methods: {
+    atualizar() {
+      this.renderChart(this.chartData, this.options);
+    },
+  },
+  watch: {
+    label: {
+      deep: true,
+      handler() {
+        this.chartData.labels = this.label;
+        this.chartData.datasets[0].data = this.total;
+        this.renderChart(this.chartData, this.options);
+      },
+    },
   },
 };
 </script>

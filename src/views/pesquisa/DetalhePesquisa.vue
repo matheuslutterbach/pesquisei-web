@@ -1,17 +1,22 @@
 <template>
-  <div class="card" style="border-radius: 15px;">
+  <div class="card" style="border-radius: 15px">
     <div class="card-content">
       <div class="titulo">
         <p class="title">
-          <b-icon class="mr-1" pack="fas" icon="clipboard-list" size="is-small" />
-          Pesquisa {{pesquisa.nome}}
+          <b-icon
+            class="mr-1"
+            pack="fas"
+            icon="clipboard-list"
+            size="is-small"
+          />
+          Pesquisa {{ pesquisa.nome }}
         </p>
 
         <div>
           <button
             class="button is-link mr-2"
             @click="buscarPesquisa(pesquisa.id)"
-            :class="{'is-loading' : loading }"
+            :class="{ 'is-loading': loading }"
           >
             <span class="icon is-small">
               <i class="fas fa-sync"></i>
@@ -19,10 +24,28 @@
           </button>
           <button
             class="button is-link mr-2"
-            @click="resultadosRouter()"
-            :class="{'is-loading' : loading }"
+            @click="resultadosGeralRouter()"
+            :class="{ 'is-loading': loading }"
           >
-            <b-icon class="mr-1" pack="fas" icon="chart-pie" size="is-small" />Resultados
+            <b-icon
+              class="mr-1"
+              pack="fas"
+              icon="chart-pie"
+              size="is-small"
+            />Resultado Geral
+          </button>
+
+          <button
+            class="button is-link mr-2"
+            @click="resultadosBairroRouter()"
+            :class="{ 'is-loading': loading }"
+          >
+            <b-icon
+              class="mr-1"
+              pack="fas"
+              icon="map-marker-alt"
+              size="is-small"
+            />Resultado Bairro
           </button>
         </div>
       </div>
@@ -96,8 +119,11 @@ export default {
           }
         );
     },
-    resultadosRouter() {
-      this.$router.push("/pesquisa-resultado/" + this.$route.params.id);
+    resultadosGeralRouter() {
+      this.$router.push("/pesquisa-resultado-geral/" + this.$route.params.id);
+    },
+    resultadosBairroRouter() {
+      this.$router.push("/pesquisa-resultado-bairro/" + this.$route.params.id);
     },
   },
 };
