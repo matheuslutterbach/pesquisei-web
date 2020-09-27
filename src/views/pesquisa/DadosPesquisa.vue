@@ -35,7 +35,7 @@
       </b-table-column>
 
       <b-table-column field="quantidade" label="Quantidade" v-slot="props">
-        <p>{{ props.row.quantidade}} %</p>
+        <p>{{ props.row.quantidade}} </p>
       </b-table-column>
     </b-table>
   </div>
