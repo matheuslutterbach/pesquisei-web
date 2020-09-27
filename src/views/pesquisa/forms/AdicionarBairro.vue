@@ -9,8 +9,12 @@
             <button type="button" class="delete" @click="$emit('close')" />
           </header>
           <section class="modal-card-body">
-            <ValidationProvider v-slot="{ errors }" name="'Cidade'" rules="required">
-              <b-field :type="{'is-danger' : errors.length}" label="Cidade">
+            <ValidationProvider
+              v-slot="{ errors }"
+              name="'Cidade'"
+              rules="required"
+            >
+              <b-field :type="{ 'is-danger': errors.length }" label="Cidade">
                 <b-select
                   placeholder="Selecione a Cidade"
                   :loading="loadingCidades"
@@ -18,7 +22,9 @@
                   @input="buscarBairros()"
                   v-model="cidade"
                 >
-                  <option v-for="c in cidades" :value="c" :key="c.id">{{ c.nome }}</option>
+                  <option v-for="c in cidades" :value="c" :key="c.id">
+                    {{ c.nome }}
+                  </option>
                 </b-select>
               </b-field>
               <small class="has-text-danger">{{ errors[0] }}</small>
@@ -27,24 +33,41 @@
             <div v-if="bairros[0] && cidade.id" class="field mt-5">
               <div class="columns">
                 <div class="column">
-                  <ValidationProvider v-slot="{ errors }" name="'Bairro'" rules="required">
-                    <b-field :type="{'is-danger' : errors.length}" label="Bairro">
+                  <ValidationProvider
+                    v-slot="{ errors }"
+                    name="'Bairro'"
+                    rules="required"
+                  >
+                    <b-field
+                      :type="{ 'is-danger': errors.length }"
+                      label="Bairro"
+                    >
                       <b-select
                         placeholder="Selecione o Bairro"
                         :loading="loadingBairros"
                         expanded
                         v-model="bairro"
+                        required
                       >
-                        <option v-for="b in bairros" :value="b" :key="b.id">{{ b.nome }}</option>
+                        <option v-for="b in bairros" :value="b" :key="b.id">
+                          {{ b.nome }}
+                        </option>
                       </b-select>
                     </b-field>
                     <small class="has-text-danger">{{ errors[0] }}</small>
                   </ValidationProvider>
                 </div>
                 <div class="column">
-                  <ValidationProvider v-slot="{ errors }" name="'Percentual'" rules="max_value:100">
-                    <b-field :type="{'is-danger' : errors.length}" label="Percentual">
-                      <b-input v-model="bairro.percentual" icon-pack="fas" icon="percent"></b-input>
+                  <ValidationProvider
+                    v-slot="{ errors }"
+                    name="'Quantidade'"
+                    rules="required"
+                  >
+                    <b-field
+                      :type="{ 'is-danger': errors.length }"
+                      label="Quantidade"
+                    >
+                      <b-input v-model="bairro.quantidade"></b-input>
                     </b-field>
                     <small class="has-text-danger">{{ errors[0] }}</small>
                   </ValidationProvider>
@@ -52,8 +75,12 @@
               </div>
             </div>
 
-            <div v-else-if="cidade.id">
-              <p class="title is-5 mt-5">{{cidade.nome}} não possui Bairros cadastrados.</p>
+            <Loading v-if="loadingBairros" />
+
+            <div v-else-if="bairros.length == 0">
+              <p class="title is-5 mt-5">
+                {{ cidade.nome }} não possui Bairros cadastrados.
+              </p>
             </div>
           </section>
           <footer class="modal-card-foot">
@@ -63,9 +90,14 @@
                 type="button"
                 :loading="loading"
                 @click="$emit('close')"
-              >Fechar</b-button>
+                >Fechar</b-button
+              >
 
-              <b-button class="button is-primary" :loading="loading" native-type="submit">
+              <b-button
+                class="button is-primary"
+                :loading="loading"
+                native-type="submit"
+              >
                 <span>Adicionar</span>
                 <span class="icon is-small">
                   <i class="fas fa-plus"></i>
@@ -81,8 +113,10 @@
 
 <script>
 import { authService } from "../../../_services/authService";
+import Loading from "../../../components/Loading";
 
 export default {
+  components: { Loading },
   created() {
     this.buscarCidades();
   },
@@ -98,6 +132,7 @@ export default {
   },
   methods: {
     salvar() {
+      console.log(this.bairro);
       this.$store.commit("adicionarBairro", this.bairro);
       this.$emit("close");
     },

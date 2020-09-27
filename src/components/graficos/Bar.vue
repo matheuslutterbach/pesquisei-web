@@ -1,8 +1,10 @@
 <script>
 import { Bar } from "vue-chartjs";
+import ChartJSPluginDatalabels from "chartjs-plugin-datalabels";
 
 export default {
   props: ["pergunta", "label", "total"],
+  components: { ChartJSPluginDatalabels },
 
   extends: Bar,
   data() {
@@ -47,6 +49,18 @@ export default {
         ],
       },
       options: {
+        plugins: {
+          datalabels: {
+            offset: -2,
+            color: "black",
+            anchor: "end",
+            align: "top",
+            font: {
+              size: 14,
+              weight: "bold",
+            },
+          },
+        },
         scales: {
           yAxes: [
             {
@@ -68,6 +82,14 @@ export default {
         },
         legend: {
           display: false,
+        },
+        layout: {
+          padding: {
+            left: 0,
+            right: 0,
+            top: 18,
+            bottom: 0,
+          },
         },
         responsive: true,
         maintainAspectRatio: false,

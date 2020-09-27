@@ -82,7 +82,7 @@ export default {
           hasModalCard: true,
           props: { parametro },
           customClass: "custom-class custom-class-2",
-          width: 400,
+          width: 700,
         })
         .$on("close", () => this.buscarBairros());
     },

@@ -28,6 +28,7 @@ export default new Vuex.Store({
 
         //Perguntas
         adicionarPergunta(state, pergunta) {
+            console.log(pergunta)
             state.perguntasCadastradas.push(pergunta)
         },
         limparPerguntas(state) {

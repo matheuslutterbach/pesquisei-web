@@ -34,8 +34,8 @@
         <p>{{ props.row.bairro.cidade.nome }} - {{props.row.bairro.cidade.estadoSigla}}</p>
       </b-table-column>
 
-      <b-table-column field="percentual" label="Percentual" v-slot="props">
-        <p>{{ props.row.percentual}} %</p>
+      <b-table-column field="quantidade" label="Quantidade" v-slot="props">
+        <p>{{ props.row.quantidade}} %</p>
       </b-table-column>
     </b-table>
   </div>

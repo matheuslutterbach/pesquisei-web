@@ -12,7 +12,7 @@
         </p>
 
         <div>
-          <button
+          <!-- <button
             class="button is-link mr-2"
             @click="buscarPesquisa($route.params.id)"
             :class="{ 'is-loading': loading }"
@@ -20,7 +20,8 @@
             <span class="icon is-small">
               <i class="fas fa-sync"></i>
             </span>
-          </button>
+          </button> -->
+
           <button
             class="button is-link mr-2"
             @click="exportarXlsx($route.params.id)"
@@ -36,7 +37,7 @@
         </div>
       </div>
 
-      <b-field class="has-text-centered" label="Selecione o bairro">
+      <b-field class="has-text-centered" label="Selecione o Bairro:">
         <b-select
           placeholder="Selecione o Bairro"
           @input="buscarPesquisaBairro()"
@@ -99,6 +100,9 @@ export default {
         .then(
           (response) => {
             this.pesquisa = response.body;
+            this.pesquisa.bairroPesquisas.push({
+              bairro: { id: 99999, nome: "Todos" },
+            });
             this.loading = false;
           },
           () => {
@@ -111,31 +115,37 @@ export default {
         );
     },
     buscarPesquisaBairro() {
-      console.log("buscarBairro");
-      this.loading = true;
-      this.$http
-        .get(
-          `${process.env.VUE_APP_BASE_URL}/pesquisa/` +
-            this.$route.params.id +
-            "/bairro/" +
-            this.bairroSelecionado +
-            "/resultado",
-          authService.authHeader()
-        )
-        .then(
-          (response) => {
-            this.pesquisa = response.body;
-            this.loading = false;
-          },
-          () => {
-            this.$buefy.toast.open({
-              message: "Ops..Algo deu errado!",
-              type: "is-danger",
-            });
-            this.loading = false;
-          }
-        );
-      this.$refs.bar.render;
+      if (this.bairroSelecionado === 99999) {
+        this.buscarPesquisa(this.$route.params.id);
+      } else {
+        this.loading = true;
+        this.$http
+          .get(
+            `${process.env.VUE_APP_BASE_URL}/pesquisa/` +
+              this.$route.params.id +
+              "/bairro/" +
+              this.bairroSelecionado +
+              "/resultado",
+            authService.authHeader()
+          )
+          .then(
+            (response) => {
+              this.pesquisa = response.body;
+              this.pesquisa.bairroPesquisas.push({
+                bairro: { id: 99999, nome: "Todos" },
+              });
+              this.loading = false;
+            },
+            () => {
+              this.$buefy.toast.open({
+                message: "Ops..Algo deu errado!",
+                type: "is-danger",
+              });
+              this.loading = false;
+            }
+          );
+      }
+      // this.$refs.bar.render;
     },
   },
 };

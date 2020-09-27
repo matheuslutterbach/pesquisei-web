@@ -1,9 +1,14 @@
 <template>
-  <div class="card" style="border-radius: 15px;">
+  <div class="card" style="border-radius: 15px">
     <div class="card-content">
       <div class="titulo">
         <p class="title">
-          <b-icon class="mr-4" pack="fas" icon="clipboard-check" size="is-small" />Criar Pesquisa
+          <b-icon
+            class="mr-4"
+            pack="fas"
+            icon="clipboard-check"
+            size="is-small"
+          />Criar Pesquisa
         </p>
       </div>
 
@@ -12,22 +17,40 @@
           <section class="modal-card-body">
             <div class="columns">
               <div class="column">
-                <ValidationProvider v-slot="{ errors }" name="'Nome'" rules="required">
-                  <b-field :type="{'is-danger' : errors.length}" label="Nome">
+                <ValidationProvider
+                  v-slot="{ errors }"
+                  name="'Nome'"
+                  rules="required"
+                >
+                  <b-field :type="{ 'is-danger': errors.length }" label="Nome">
                     <b-input v-model="pesquisa.nome"></b-input>
                   </b-field>
                   <small class="has-text-danger">{{ errors[0] }}</small>
                 </ValidationProvider>
 
-                <ValidationProvider v-slot="{ errors }" name="'Descrição'" rules="required">
-                  <b-field :type="{'is-danger' : errors.length}" label="Descrição">
+                <ValidationProvider
+                  v-slot="{ errors }"
+                  name="'Descrição'"
+                  rules="required"
+                >
+                  <b-field
+                    :type="{ 'is-danger': errors.length }"
+                    label="Descrição"
+                  >
                     <b-input v-model="pesquisa.descricao"></b-input>
                   </b-field>
                   <small class="has-text-danger">{{ errors[0] }}</small>
                 </ValidationProvider>
 
-                <ValidationProvider v-slot="{ errors }" name="'Nº entrevistados'" rules="numeric">
-                  <b-field :type="{'is-danger' : errors.length}" label="Nº entrevistados">
+                <ValidationProvider
+                  v-slot="{ errors }"
+                  name="'Nº entrevistados'"
+                  rules="numeric"
+                >
+                  <b-field
+                    :type="{ 'is-danger': errors.length }"
+                    label="Nº entrevistados"
+                  >
                     <b-input v-model="pesquisa.numeroEntrevistados"></b-input>
                   </b-field>
                   <small class="has-text-danger">{{ errors[0] }}</small>
@@ -36,13 +59,18 @@
               <div class="column">
                 <div class="subtitulo-form">
                   <div class="subtitle">
-                    <b-icon class="mr-2" pack="fas" icon="map-marker-alt" size="is-small" />Bairros
+                    <b-icon
+                      class="mr-2"
+                      pack="fas"
+                      icon="map-marker-alt"
+                      size="is-small"
+                    />Bairros
                   </div>
                   <div>
                     <button
                       class="button is-link mr-4"
                       @click="adicionarBairroModal()"
-                      :class="{'is-loading' : loading }"
+                      :class="{ 'is-loading': loading }"
                       type="button"
                     >
                       <span class="icon is-small">
@@ -57,7 +85,7 @@
                   :data="$store.getters.bairrosSelecionados"
                 >
                   <b-table-column width="50" v-slot="props">
-                    <p style="color: #c0c0c0">{{ props.index +1 }}</p>
+                    <p style="color: #c0c0c0">{{ props.index + 1 }}</p>
                   </b-table-column>
 
                   <b-table-column field="bairro" label="Bairro" v-slot="props">
@@ -65,13 +93,27 @@
                   </b-table-column>
 
                   <b-table-column field="cidade" label="Cidade" v-slot="props">
-                    <p>{{ props.row.cidade.nome }} - {{props.row.cidade.estadoSigla}}</p>
+                    <p>
+                      {{ props.row.cidade.nome }} -
+                      {{ props.row.cidade.estadoSigla }}
+                    </p>
                   </b-table-column>
 
-                  <b-table-column field="percentual" label="Percentual" v-slot="props">
-                    <p v-if="props.row.percentual">{{ props.row.percentual}} %</p>
+                  <b-table-column
+                    field="quantidade"
+                    label="Quantidade"
+                    v-slot="props"
+                  >
+                    <p v-if="props.row.quantidade" class="has-text-centered">
+                      {{ props.row.quantidade }}
+                    </p>
                   </b-table-column>
-                  <b-table-column v-slot="props" width="50" field="editar" custom-key="actions">
+                  <b-table-column
+                    v-slot="props"
+                    width="50"
+                    field="editar"
+                    custom-key="actions"
+                  >
                     <b-button
                       class="button is-info is-light is-small"
                       @click.native="removerBairro(props.row)"
@@ -86,14 +128,19 @@
               <div class="column">
                 <div class="subtitulo-form">
                   <div class="subtitle">
-                    <b-icon class="mr-2" pack="fas" icon="clipboard-list" size="is-small" />Perguntas
+                    <b-icon
+                      class="mr-2"
+                      pack="fas"
+                      icon="clipboard-list"
+                      size="is-small"
+                    />Perguntas
                   </div>
                   <div>
                     <button
                       size="is-small"
                       class="button is-link mr-4"
                       @click="adicionarPerguntaModal()"
-                      :class="{'is-loading' : loading }"
+                      :class="{ 'is-loading': loading }"
                       type="button"
                     >
                       <span class="icon is-small">
@@ -105,12 +152,13 @@
 
                 <div>
                   <div
-                    v-for="(pergunta, index) in $store.getters.perguntasCadastradas"
+                    v-for="(pergunta, index) in $store.getters
+                      .perguntasCadastradas"
                     :key="pergunta.id"
                   >
                     <p>
-                      <strong>{{index +1}} -</strong>
-                      {{pergunta.descricao}}
+                      <strong>{{ index + 1 }} -</strong>
+                      {{ pergunta.descricao }}
                     </p>
 
                     <div class="columns">
@@ -120,7 +168,9 @@
                             class="mt-2"
                             v-for="resposta in pergunta.respostas"
                             :key="resposta.id"
-                          >{{resposta.descricao}}</li>
+                          >
+                            {{ resposta.descricao }}
+                          </li>
                         </ol>
                       </div>
                       <div class="column">
@@ -135,7 +185,10 @@
                       </div>
                     </div>
 
-                    <div v-if="$store.getters.perguntasCadastradas.length > 0" class="is-divider"></div>
+                    <div
+                      v-if="$store.getters.perguntasCadastradas.length > 0"
+                      class="is-divider"
+                    ></div>
                   </div>
                 </div>
               </div>
@@ -155,7 +208,11 @@
                 <span>Voltar</span>
               </b-button>
 
-              <b-button class="button is-primary" :loading="loading" native-type="submit">
+              <b-button
+                class="button is-primary"
+                :loading="loading"
+                native-type="submit"
+              >
                 <span>Salvar</span>
                 <span class="icon is-small">
                   <i class="fas fa-save"></i>
@@ -181,6 +238,7 @@ export default {
     }
     this.$store.commit("limparBairros");
     this.$store.commit("limparPerguntas");
+    this.adicionarPerfil();
   },
   data() {
     return {
@@ -194,7 +252,7 @@ export default {
         (bairroSelecionado) => {
           return {
             bairroId: bairroSelecionado.id,
-            percentual: bairroSelecionado.percentual,
+            quantidade: bairroSelecionado.quantidade,
           };
         }
       );
@@ -287,6 +345,36 @@ export default {
         hasModalCard: true,
         customClass: "custom-class custom-class-2",
         width: 1200,
+      });
+    },
+    adicionarPerfil() {
+      this.$store.commit("adicionarPergunta", {
+        descricao: "Sexo",
+        ordem: 1,
+        respostas: [
+          { descricao: "Masculino", ordem: 0 },
+          { descricao: "Feminino", ordem: 1 },
+        ],
+      });
+      this.$store.commit("adicionarPergunta", {
+        descricao: "Idade",
+        ordem: 1,
+        respostas: [
+          { descricao: "16 - 28", ordem: 0 },
+          { descricao: "29 - 40", ordem: 1 },
+          { descricao: "41 - 59", ordem: 2 },
+          { descricao: "60+", ordem: 3 },
+        ],
+      });
+      this.$store.commit("adicionarPergunta", {
+        descricao: "Religião",
+        ordem: 1,
+        respostas: [
+          { descricao: "Católico", ordem: 0 },
+          { descricao: "Evangélico", ordem: 1 },
+          { descricao: "Espírita", ordem: 2 },
+          { descricao: "Outras", ordem: 3 },
+        ],
       });
     },
   },

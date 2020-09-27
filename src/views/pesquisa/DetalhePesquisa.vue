@@ -22,18 +22,6 @@
               <i class="fas fa-sync"></i>
             </span>
           </button>
-          <button
-            class="button is-link mr-2"
-            @click="resultadosGeralRouter()"
-            :class="{ 'is-loading': loading }"
-          >
-            <b-icon
-              class="mr-1"
-              pack="fas"
-              icon="chart-pie"
-              size="is-small"
-            />Resultado Geral
-          </button>
 
           <button
             class="button is-link mr-2"
@@ -43,9 +31,9 @@
             <b-icon
               class="mr-1"
               pack="fas"
-              icon="map-marker-alt"
+              icon="chart-line"
               size="is-small"
-            />Resultado Bairro
+            />Resultados
           </button>
         </div>
       </div>
