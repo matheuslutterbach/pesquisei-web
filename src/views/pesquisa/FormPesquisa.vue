@@ -354,6 +354,7 @@ export default {
         respostas: [
           { descricao: "Masculino", ordem: 0 },
           { descricao: "Feminino", ordem: 1 },
+          { descricao: "Branco", ordem: 2 },
         ],
       });
       this.$store.commit("adicionarPergunta", {
@@ -364,6 +365,7 @@ export default {
           { descricao: "29 - 40", ordem: 1 },
           { descricao: "41 - 59", ordem: 2 },
           { descricao: "60+", ordem: 3 },
+          { descricao: "Branco", ordem: 4 },
         ],
       });
       this.$store.commit("adicionarPergunta", {
@@ -374,6 +376,7 @@ export default {
           { descricao: "Evangélico", ordem: 1 },
           { descricao: "Espírita", ordem: 2 },
           { descricao: "Outras", ordem: 3 },
+          { descricao: "Branco", ordem: 4 },
         ],
       });
     },

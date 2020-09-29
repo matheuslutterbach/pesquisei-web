@@ -14,7 +14,7 @@ export default {
         datasets: [
           {
             label: "Total",
-            borderWidth: 4,
+            borderWidth: 7,
             backgroundColor: [
               "rgba(255, 99, 132, 0.2)",
               "rgba(54, 162, 235, 0.2)",
@@ -56,7 +56,7 @@ export default {
             anchor: "end",
             align: "top",
             font: {
-              size: 14,
+              size: 15,
               weight: "bold",
             },
           },
@@ -74,6 +74,9 @@ export default {
           ],
           xAxes: [
             {
+              ticks: {
+                fontSize: 15,
+              },
               gridLines: {
                 display: false,
               },
@@ -82,6 +85,10 @@ export default {
         },
         legend: {
           display: false,
+          labels: {
+            fontSize: 20,
+            fontColor: "red",
+          },
         },
         layout: {
           padding: {

@@ -24,15 +24,15 @@
 
           <button
             class="button is-link mr-2"
-            @click="exportarXlsx($route.params.id)"
+            @click="exportarCsv($route.params.id)"
             :class="{ 'is-loading': loading }"
           >
             <b-icon
               class="mr-1"
               pack="fas"
-              icon="file-excel"
+              icon="file-csv"
               size="is-small"
-            />Exportar
+            />Registros
           </button>
         </div>
       </div>
@@ -52,6 +52,36 @@
           </option>
         </b-select>
       </b-field>
+
+      <h1 class="subtitle">
+        <b-icon class="mr-1" pack="fas" icon="percent" size="is-small" />
+        Valores em Porcentagem
+      </h1>
+
+      <div class="colunas">
+        <div v-for="(pergunta, index) in pesquisa.perguntas" :key="pergunta.id">
+          <p class="has-text-centered mb-2 subtitle">
+            {{ index + 1 }} - {{ pergunta.descricao }}
+          </p>
+          <Bar
+            ref="bar"
+            :label="pergunta.labels"
+            :total="pergunta.totaisPorcentagem"
+          />
+        </div>
+      </div>
+
+      <div class="is-divider"></div>
+
+      <h1 class="subtitle">
+        <b-icon
+          class="mt-5 mr-1"
+          pack="fas"
+          icon="sort-numeric-up"
+          size="is-small"
+        />
+        Valores Absolutos
+      </h1>
 
       <div class="colunas">
         <div v-for="(pergunta, index) in pesquisa.perguntas" :key="pergunta.id">
@@ -85,6 +115,7 @@ export default {
       pesquisa: {},
       pesquisaBairro: {},
       labels: [],
+      csvdata: [],
     };
   },
   methods: {
@@ -101,7 +132,7 @@ export default {
           (response) => {
             this.pesquisa = response.body;
             this.pesquisa.bairroPesquisas.push({
-              bairro: { id: 99999, nome: "Todos" },
+              bairro: { id: 99999, nome: "Resultado Geral" },
             });
             this.loading = false;
           },
@@ -132,7 +163,7 @@ export default {
             (response) => {
               this.pesquisa = response.body;
               this.pesquisa.bairroPesquisas.push({
-                bairro: { id: 99999, nome: "Todos" },
+                bairro: { id: 99999, nome: "Resultado Geral" },
               });
               this.loading = false;
             },
@@ -146,6 +177,36 @@ export default {
           );
       }
       // this.$refs.bar.render;
+    },
+    exportarCsv(idPesquisa) {
+      this.loading = true;
+      this.$http
+        .get(
+          `${process.env.VUE_APP_BASE_URL}/resultado/pesquisa/` +
+            idPesquisa +
+            "/exportar",
+          authService.authHeader()
+        )
+        .then(
+          (response) => {
+            this.csvdata = response.body;
+
+            let anchor = document.createElement("a");
+            anchor.href =
+              "data:text/csv;charset=utf-8," + encodeURIComponent(this.csvdata);
+            anchor.target = "_blank";
+            anchor.download = "resultado_pesquisa.csv";
+            anchor.click();
+            this.loading = false;
+          },
+          () => {
+            this.$buefy.toast.open({
+              message: "Ops..Algo deu errado!",
+              type: "is-danger",
+            });
+            this.loading = false;
+          }
+        );
     },
   },
 };
