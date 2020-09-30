@@ -1,6 +1,6 @@
 <template>
   <div>
-    <section class="hero is-primary is-fullheight">
+    <section class="hero is-primary login-altura">
       <div class="hero-body">
         <div class="container">
           <div class="columns is-centered">
@@ -90,4 +90,7 @@ export default {
 </script>
 
 <style>
+.login-altura {
+  height: calc(100vh - 79px);
+}
 </style>

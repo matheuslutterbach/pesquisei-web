@@ -53,6 +53,17 @@
               </span>
               <span>Voltar</span>
             </b-button>
+            <b-button
+              class="button is-danger mt-6 ml-4"
+              type="is-light"
+              :loading="loading"
+              @click="$router.push('/pesquisa')"
+            >
+              <span class="icon is-small">
+                <i class="fas fa-trash"></i>
+              </span>
+              <span>Excluir</span>
+            </b-button>
           </div>
           <div class="is-divider-vertical" />
           <div class="column is-5">
